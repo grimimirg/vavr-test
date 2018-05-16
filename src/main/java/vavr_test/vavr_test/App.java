@@ -1,10 +1,12 @@
 package vavr_test.vavr_test;
 
 import io.vavr.collection.List;
+import io.vavr.collection.Map;
 import io.vavr.concurrent.Future;
 
 /**
- * Hello world!
+ * 
+ * @author Andrea_Grimandi
  *
  */
 public class App {
@@ -22,21 +24,15 @@ public class App {
 	}
 
 	public static void main(String[] args) {
-		Future.of(() -> doSth())
-			.map(result -> result.append(new Sample("a", "b", "c")))
-			.onComplete(result -> {
-				System.out.println(result);
-			});
-
 		Future.sequence(
-			List.of(
-				Future.of(() -> doSth()), 
-				Future.of(() -> doSthElse()), 
-				Future.of(() -> doSthElseMore())
-			)
-		).onComplete(result -> {
-			System.out.println(result);
-		});
+				List.of(Future.of(() -> doSth()), Future.of(() -> doSthElse()), Future.of(() -> doSthElseMore())))
+				.onComplete(result -> {
+					result.getOrElse(List.empty()).flatMap(mapper -> mapper).forEach(sample -> {
+						System.out.println(sample);
+					});
+				});
 
+		List.of("x=y;y=z;a=b;b=c".split(";")).map(element -> Map.entry(element.split("=")[0], element.split("=")[1]))
+				.forEach(tuple -> System.out.println(tuple));
 	}
 }
