@@ -1,4 +1,4 @@
-package vavr_test.vavr_test;
+package vavrtest;
 
 import io.vavr.collection.List;
 import io.vavr.collection.Map;

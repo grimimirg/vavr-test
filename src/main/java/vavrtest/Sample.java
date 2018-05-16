@@ -1,4 +1,4 @@
-package vavr_test.vavr_test;
+package vavrtest;
 
 public class Sample {
 	public String prop1;
